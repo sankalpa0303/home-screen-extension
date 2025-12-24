@@ -3,22 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Tab - Aquarium Browser</title>
+    <title>New tab</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Animated Fish Tank Background -->
-    <div class="ocean-background">
-        <!-- Fish will be dynamically generated here -->
-        <div id="fish-container"></div>
-        
-        <!-- Bubbles will be dynamically generated here -->
-        <div id="bubble-container"></div>
-        
-        <!-- Seaweed decorations -->
-        <div class="seaweed seaweed-1"></div>
-        <div class="seaweed seaweed-2"></div>
-        <div class="seaweed seaweed-3"></div>
+    <!-- Data Science Background -->
+    <div class="data-background">
+        <div class="data-grid-layer"></div>
+
+        <div class="data-aurora">
+            <div class="aurora-layer aurora-1"></div>
+            <div class="aurora-layer aurora-2"></div>
+        </div>
+
+        <div class="data-flow-lines">
+            <div class="flow-line slow" style="--x:15%;"></div>
+            <div class="flow-line medium" style="--x:45%;"></div>
+            <div class="flow-line fast" style="--x:75%;"></div>
+        </div>
+
+        <div class="data-rings">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+        </div>
+
+        <div class="data-orbits">
+            <div class="orbit orbit-1"><span></span></div>
+            <div class="orbit orbit-2"><span></span></div>
+            <div class="orbit orbit-3"><span></span></div>
+        </div>
+
+        <div class="data-nodes">
+            <span style="--x:18%; --y:28%; --size:10px;"></span>
+            <span style="--x:30%; --y:62%; --size:14px;"></span>
+            <span style="--x:48%; --y:40%; --size:8px;"></span>
+            <span style="--x:62%; --y:22%; --size:12px;"></span>
+            <span style="--x:74%; --y:58%; --size:9px;"></span>
+            <span style="--x:82%; --y:35%; --size:6px;"></span>
+        </div>
+
+        <div class="plane-layer" id="plane-layer"></div>
+
+        <div class="comet-layer" id="comet-layer"></div>
+
+        <div class="data-particles" id="data-particles"></div>
     </div>
 
     <!-- Main Content Container -->
@@ -36,6 +65,12 @@
                     placeholder="Search the web or enter a URL..."
                     autocomplete="off"
                 />
+            </div>
+            <div class="search-suggestions" id="search-suggestions">
+                <div class="suggestions-group">
+                    <div class="suggestions-title">Recent searches</div>
+                    <ul class="suggestions-list" id="recent-searches"></ul>
+                </div>
             </div>
         </div>
 
