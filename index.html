@@ -1,104 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AquaHome</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="ocean-gradient" aria-hidden="true"></div>
-    <div class="bubble-layer" aria-hidden="true">
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab - Aquarium Browser</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Fish Tank Background -->
+    <div class="ocean-background">
+        <!-- Fish will be dynamically generated here -->
+        <div id="fish-container"></div>
+        
+        <!-- Bubbles will be dynamically generated here -->
+        <div id="bubble-container"></div>
+        
+        <!-- Seaweed decorations -->
+        <div class="seaweed seaweed-1"></div>
+        <div class="seaweed seaweed-2"></div>
+        <div class="seaweed seaweed-3"></div>
     </div>
 
-    <div id="fishLayer" aria-hidden="true"></div>
-
-    <main class="layout">
-      <header class="top-bar glass-card">
-        <div class="brand">
-          <span class="brand-dot"></span>
-          AquaHome
+    <!-- Main Content Container -->
+    <div class="content-wrapper">
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-bar">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="Search the web or enter a URL..."
+                    autocomplete="off"
+                />
+            </div>
         </div>
-        <div class="session-meta">
-          <p class="session-label">Today</p>
-          <div class="clock-wrapper">
-            <div id="clock" class="clock-display"></div>
-          </div>
+
+        <!-- Shortcuts Section -->
+        <div class="shortcuts-container">
+            <div class="shortcuts-grid" id="shortcuts-grid">
+                <!-- Shortcuts will be dynamically generated here -->
+            </div>
+            
+            <!-- Add Shortcut Button -->
+            <button class="add-shortcut-btn" id="add-shortcut-btn" title="Add new shortcut">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
         </div>
-      </header>
+    </div>
 
-      <section class="search-section glass-card">
-        <div class="search-copy">
-          <p class="eyebrow">Universal search</p>
-          <h1>Stay focused, stay curious.</h1>
-          <p class="subcopy">
-            Launch a query or jump back into your saved workspaces.
-          </p>
+    <!-- Add Shortcut Modal -->
+    <div class="modal" id="add-shortcut-modal">
+        <div class="modal-content">
+            <h2>Add New Shortcut</h2>
+            <form id="shortcut-form">
+                <div class="form-group">
+                    <label for="shortcut-name">Name</label>
+                    <input type="text" id="shortcut-name" placeholder="e.g., GitHub" required>
+                </div>
+                <div class="form-group">
+                    <label for="shortcut-url">URL</label>
+                    <input type="url" id="shortcut-url" placeholder="https://github.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="shortcut-icon">Icon (emoji or letter)</label>
+                    <input type="text" id="shortcut-icon" placeholder="🐙 or G" maxlength="2" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="btn-submit">Add Shortcut</button>
+                </div>
+            </form>
         </div>
-        <form id="searchForm">
-          <input
-            id="searchInput"
-            type="search"
-            name="q"
-            autocomplete="off"
-            placeholder="Search the web"
-            aria-label="Search the web"
-          />
-          <button type="submit">Search</button>
-        </form>
-      </section>
+    </div>
 
-      <section class="shortcuts-section glass-card">
-        <div class="shortcuts-header">
-          <div>
-            <p class="eyebrow">Pinned links</p>
-            <h2>Quick access</h2>
-          </div>
-          <button
-            id="toggleShortcutForm"
-            class="icon-button"
-            type="button"
-            aria-expanded="false"
-            aria-controls="shortcutForm"
-            title="Add shortcut"
-          >
-            +
-          </button>
-        </div>
-        <div class="shortcut-grid" id="shortcutGrid" role="list"></div>
-
-        <form id="shortcutForm" class="shortcut-form" hidden>
-          <input
-            type="text"
-            id="shortcutName"
-            placeholder="Label"
-            autocomplete="off"
-          />
-          <input
-            type="url"
-            id="shortcutUrl"
-            placeholder="https://example.com"
-            autocomplete="off"
-          />
-          <button type="submit">Save shortcut</button>
-        </form>
-      </section>
-    </main>
-
-    <script src="script.js" defer></script>
-  </body>
+    <script src="script.js"></script>
+</body>
 </html>

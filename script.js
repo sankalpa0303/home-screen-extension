@@ -1,246 +1,431 @@
-// -------------------- Clock --------------------
-const clockEl = document.getElementById("clock");
+// ==================== Configuration ====================
+const CONFIG = {
+    satellites: {
+        count: 6,
+        minSpeed: 20,
+        maxSpeed: 40,
+        minSize: 0.6,
+        maxSize: 1.2
+    },
+    shootingStars: {
+        count: 15,
+        minDuration: 2,
+        maxDuration: 4
+    },
+    astronauts: {
+        count: 2
+    },
+    rockets: {
+        count: 1
+    },
+    planets: {
+        count: 2
+    },
+    defaultShortcuts: [
+        { name: 'CourseWeb', url: 'https://courseweb.com', icon: '📚' },
+        { name: 'ChatGPT', url: 'https://chat.openai.com', icon: '🤖' },
+        { name: 'DeepSeek', url: 'https://chat.deepseek.com', icon: '🔍' },
+        { name: 'MGX AI', url: 'https://mgx.dev', icon: '✨' },
+        { name: 'GitHub', url: 'https://github.com', icon: '🐙' },
+        { name: 'YouTube', url: 'https://youtube.com', icon: '▶️' }
+    ]
+};
 
-function updateClock() {
-  const now = new Date();
-  const hours = now.getHours().toString().padStart(2, "0");
-  const minutes = now.getMinutes().toString().padStart(2, "0");
-  const seconds = now.getSeconds().toString().padStart(2, "0");
-  clockEl.textContent = `${hours}:${minutes}:${seconds}`;
+// ==================== Satellite Animation ====================
+class SatelliteManager {
+    constructor() {
+        this.container = document.getElementById('fish-container');
+        this.satellites = [];
+        this.init();
+    }
+
+    init() {
+        for (let i = 0; i < CONFIG.satellites.count; i++) {
+            this.createSatellite();
+        }
+    }
+
+    createSatellite() {
+        const satellite = document.createElement('div');
+        satellite.className = 'fish';
+        
+        // Random size
+        const scale = CONFIG.satellites.minSize + Math.random() * (CONFIG.satellites.maxSize - CONFIG.satellites.minSize);
+        
+        // Random vertical position
+        const yPosition = 10 + Math.random() * 70;
+        
+        // Random speed
+        const duration = CONFIG.satellites.minSpeed + Math.random() * (CONFIG.satellites.maxSpeed - CONFIG.satellites.minSpeed);
+        
+        // Random vertical offset
+        const swimOffset = -50 + Math.random() * 100;
+        
+        // Random delay
+        const delay = Math.random() * 8;
+        
+        satellite.style.setProperty('--swim-offset', `${swimOffset}px`);
+        satellite.style.top = `${yPosition}%`;
+        satellite.style.transform = `scale(${scale})`;
+        satellite.style.animation = `swim ${duration}s linear infinite`;
+        satellite.style.animationDelay = `${delay}s`;
+        
+        // Create satellite body and antenna
+        const body = document.createElement('div');
+        body.className = 'fish-body';
+        
+        const antenna = document.createElement('div');
+        antenna.className = 'fish-tail';
+        
+        satellite.appendChild(body);
+        satellite.appendChild(antenna);
+        
+        this.container.appendChild(satellite);
+        this.satellites.push(satellite);
+        
+        // Restart animation with new random values
+        satellite.addEventListener('animationiteration', () => {
+            const newYPosition = 10 + Math.random() * 70;
+            const newSwimOffset = -50 + Math.random() * 100;
+            const newDuration = CONFIG.satellites.minSpeed + Math.random() * (CONFIG.satellites.maxSpeed - CONFIG.satellites.minSpeed);
+            
+            satellite.style.setProperty('--swim-offset', `${newSwimOffset}px`);
+            satellite.style.top = `${newYPosition}%`;
+            satellite.style.animation = `swim ${newDuration}s linear infinite`;
+        });
+    }
 }
 
-updateClock();
-setInterval(updateClock, 1000);
-
-// -------------------- Search --------------------
-const searchForm = document.getElementById("searchForm");
-const searchInput = document.getElementById("searchInput");
-const SEARCH_URL = "https://www.google.com/search?q=";
-
-searchForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const query = searchInput.value.trim();
-  if (!query) return;
-  const redirectUrl = `${SEARCH_URL}${encodeURIComponent(query)}`;
-  window.location.href = redirectUrl;
-});
-
-// -------------------- Shortcuts --------------------
-const shortcutGrid = document.getElementById("shortcutGrid");
-const shortcutForm = document.getElementById("shortcutForm");
-const toggleShortcutFormBtn = document.getElementById("toggleShortcutForm");
-const shortcutNameInput = document.getElementById("shortcutName");
-const shortcutUrlInput = document.getElementById("shortcutUrl");
-
-const STORAGE_KEY = "aquaHome.shortcuts";
-const defaultShortcuts = [
-  { name: "CourseWeb", url: "https://courseweb.sliit.lk" },
-  { name: "ChatGPT", url: "https://chat.openai.com" },
-  { name: "DeepSeek", url: "https://www.deepseek.com" },
-  { name: "MGX AI", url: "https://mgx.ai" },
-];
-
-const getShortcuts = () => {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (raw) {
-    try {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        return parsed;
-      }
-    } catch (_) {
-      /* fall through to defaults */
+// ==================== Shooting Star Animation ====================
+class ShootingStarManager {
+    constructor() {
+        this.container = document.getElementById('bubble-container');
+        this.stars = [];
+        this.init();
     }
-  }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultShortcuts));
-  return [...defaultShortcuts];
-};
 
-const saveShortcuts = (shortcuts) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(shortcuts));
-};
+    init() {
+        for (let i = 0; i < CONFIG.shootingStars.count; i++) {
+            setTimeout(() => this.createShootingStar(), i * 800);
+        }
+    }
 
-const renderShortcuts = () => {
-  const shortcuts = getShortcuts();
-  shortcutGrid.innerHTML = "";
+    createShootingStar() {
+        const star = document.createElement('div');
+        star.className = 'bubble';
+        
+        // Random horizontal start position
+        const startX = Math.random() * 80;
+        
+        // Random duration
+        const duration = CONFIG.shootingStars.minDuration + Math.random() * (CONFIG.shootingStars.maxDuration - CONFIG.shootingStars.minDuration);
+        
+        // Random delay
+        const delay = Math.random() * 5;
+        
+        star.style.setProperty('--start-x', `${startX}%`);
+        star.style.animation = `shooting-star ${duration}s linear infinite`;
+        star.style.animationDelay = `${delay}s`;
+        
+        this.container.appendChild(star);
+        this.stars.push(star);
+        
+        // Randomize next shooting star
+        star.addEventListener('animationiteration', () => {
+            const newStartX = Math.random() * 80;
+            const newDuration = CONFIG.shootingStars.minDuration + Math.random() * (CONFIG.shootingStars.maxDuration - CONFIG.shootingStars.minDuration);
+            
+            star.style.setProperty('--start-x', `${newStartX}%`);
+            star.style.animation = `shooting-star ${newDuration}s linear infinite`;
+        });
+    }
+}
 
-  shortcuts.forEach((shortcut, index) => {
-    const tile = document.createElement("a");
-    tile.className = "shortcut-tile";
-    tile.href = shortcut.url;
-    tile.target = "_blank";
-    tile.rel = "noopener noreferrer";
-    tile.role = "listitem";
+// ==================== Astronaut Manager ====================
+class AstronautManager {
+    constructor() {
+        this.container = document.getElementById('fish-container');
+        this.init();
+    }
 
-    const title = document.createElement("div");
-    title.className = "shortcut-title";
-    title.textContent = shortcut.name;
+    init() {
+        for (let i = 0; i < CONFIG.astronauts.count; i++) {
+            this.createAstronaut(i);
+        }
+    }
 
-    const url = document.createElement("div");
-    url.className = "shortcut-url";
-    url.textContent = shortcut.url.replace(/^https?:\/\//i, "");
+    createAstronaut(index) {
+        const astronaut = document.createElement('div');
+        astronaut.className = 'astronaut';
+        
+        // Position astronauts
+        const positions = [
+            { top: '25%', left: '15%' },
+            { top: '60%', right: '20%' }
+        ];
+        
+        const pos = positions[index];
+        Object.assign(astronaut.style, pos);
+        
+        // Add animation delay
+        astronaut.style.animationDelay = `${index * 2}s`;
+        
+        astronaut.innerHTML = `
+            <div class="astronaut-body">
+                <div class="astronaut-helmet">
+                    <div class="astronaut-visor"></div>
+                </div>
+                <div class="astronaut-arm left"></div>
+                <div class="astronaut-arm right"></div>
+                <div class="astronaut-leg left"></div>
+                <div class="astronaut-leg right"></div>
+            </div>
+        `;
+        
+        this.container.appendChild(astronaut);
+    }
+}
 
-    const removeBtn = document.createElement("button");
-    removeBtn.type = "button";
-    removeBtn.className = "shortcut-remove";
-    removeBtn.textContent = "×";
-    removeBtn.title = "Remove shortcut";
+// ==================== Rocket Manager ====================
+class RocketManager {
+    constructor() {
+        this.container = document.getElementById('fish-container');
+        this.init();
+    }
 
-    removeBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      const updated = getShortcuts().filter((_, i) => i !== index);
-      saveShortcuts(updated);
-      renderShortcuts();
-    });
+    init() {
+        for (let i = 0; i < CONFIG.rockets.count; i++) {
+            setTimeout(() => this.createRocket(), i * 5000);
+        }
+    }
 
-    tile.append(title, url, removeBtn);
-    shortcutGrid.appendChild(tile);
-  });
-};
+    createRocket() {
+        const rocket = document.createElement('div');
+        rocket.className = 'rocket';
+        
+        rocket.innerHTML = `
+            <div class="rocket-body">
+                <div class="rocket-nose"></div>
+                <div class="rocket-window"></div>
+                <div class="rocket-fin left"></div>
+                <div class="rocket-fin right"></div>
+                <div class="rocket-flame"></div>
+            </div>
+        `;
+        
+        this.container.appendChild(rocket);
+        
+        // Remove and recreate rocket after animation
+        rocket.addEventListener('animationiteration', () => {
+            setTimeout(() => {
+                rocket.style.animation = 'none';
+                setTimeout(() => {
+                    rocket.style.animation = 'rocket-fly 15s linear infinite';
+                }, 100);
+            }, Math.random() * 10000);
+        });
+    }
+}
 
-toggleShortcutFormBtn.addEventListener("click", () => {
-  const isHidden = shortcutForm.hasAttribute("hidden");
-  if (isHidden) {
-    shortcutForm.removeAttribute("hidden");
-    shortcutNameInput.focus();
-  } else {
-    shortcutForm.setAttribute("hidden", "");
-  }
-  toggleShortcutFormBtn.setAttribute("aria-expanded", String(isHidden));
+// ==================== Planet Manager ====================
+class PlanetManager {
+    constructor() {
+        this.container = document.getElementById('fish-container');
+        this.init();
+    }
+
+    init() {
+        for (let i = 0; i < CONFIG.planets.count; i++) {
+            this.createPlanet(i);
+        }
+    }
+
+    createPlanet(index) {
+        const planet = document.createElement('div');
+        planet.className = `planet planet-${index + 1}`;
+        this.container.appendChild(planet);
+    }
+}
+
+// ==================== Shortcut Manager ====================
+class ShortcutManager {
+    constructor() {
+        this.container = document.getElementById('shortcuts-grid');
+        this.modal = document.getElementById('add-shortcut-modal');
+        this.form = document.getElementById('shortcut-form');
+        this.addBtn = document.getElementById('add-shortcut-btn');
+        this.cancelBtn = document.getElementById('cancel-btn');
+        
+        this.shortcuts = this.loadShortcuts();
+        this.init();
+    }
+
+    init() {
+        this.renderShortcuts();
+        this.attachEventListeners();
+    }
+
+    loadShortcuts() {
+        const saved = localStorage.getItem('shortcuts');
+        return saved ? JSON.parse(saved) : CONFIG.defaultShortcuts;
+    }
+
+    saveShortcuts() {
+        localStorage.setItem('shortcuts', JSON.stringify(this.shortcuts));
+    }
+
+    renderShortcuts() {
+        this.container.innerHTML = '';
+        
+        this.shortcuts.forEach((shortcut, index) => {
+            const shortcutEl = document.createElement('a');
+            shortcutEl.className = 'shortcut';
+            shortcutEl.href = shortcut.url;
+            shortcutEl.target = '_blank';
+            shortcutEl.rel = 'noopener noreferrer';
+            
+            shortcutEl.innerHTML = `
+                <div class="shortcut-icon">${shortcut.icon}</div>
+                <div class="shortcut-name">${shortcut.name}</div>
+                <button class="shortcut-delete" data-index="${index}" title="Delete shortcut">×</button>
+            `;
+            
+            this.container.appendChild(shortcutEl);
+        });
+
+        // Attach delete handlers
+        document.querySelectorAll('.shortcut-delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.deleteShortcut(parseInt(btn.dataset.index));
+            });
+        });
+    }
+
+    addShortcut(name, url, icon) {
+        // Ensure URL has protocol
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = 'https://' + url;
+        }
+        
+        this.shortcuts.push({ name, url, icon });
+        this.saveShortcuts();
+        this.renderShortcuts();
+    }
+
+    deleteShortcut(index) {
+        if (confirm('Are you sure you want to delete this shortcut?')) {
+            this.shortcuts.splice(index, 1);
+            this.saveShortcuts();
+            this.renderShortcuts();
+        }
+    }
+
+    attachEventListeners() {
+        // Open modal
+        this.addBtn.addEventListener('click', () => {
+            this.modal.classList.add('active');
+            document.getElementById('shortcut-name').focus();
+        });
+
+        // Close modal
+        this.cancelBtn.addEventListener('click', () => {
+            this.modal.classList.remove('active');
+            this.form.reset();
+        });
+
+        // Close modal on background click
+        this.modal.addEventListener('click', (e) => {
+            if (e.target === this.modal) {
+                this.modal.classList.remove('active');
+                this.form.reset();
+            }
+        });
+
+        // Submit form
+        this.form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('shortcut-name').value.trim();
+            const url = document.getElementById('shortcut-url').value.trim();
+            const icon = document.getElementById('shortcut-icon').value.trim();
+            
+            if (name && url && icon) {
+                this.addShortcut(name, url, icon);
+                this.modal.classList.remove('active');
+                this.form.reset();
+            }
+        });
+    }
+}
+
+// ==================== Search Functionality ====================
+class SearchManager {
+    constructor() {
+        this.input = document.getElementById('search-input');
+        this.init();
+    }
+
+    init() {
+        this.input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.performSearch();
+            }
+        });
+    }
+
+    performSearch() {
+        const query = this.input.value.trim();
+        
+        if (!query) return;
+        
+        // Check if input is a URL
+        if (this.isURL(query)) {
+            window.location.href = query.startsWith('http') ? query : 'https://' + query;
+        } else {
+            // Perform Google search
+            window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        }
+    }
+
+    isURL(string) {
+        // Simple URL detection
+        const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+        return urlPattern.test(string) || string.includes('.');
+    }
+}
+
+// ==================== Initialize Everything ====================
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize all managers
+    new SatelliteManager();
+    new ShootingStarManager();
+    new AstronautManager();
+    new RocketManager();
+    new PlanetManager();
+    new ShortcutManager();
+    new SearchManager();
+    
+    console.log('🚀 Space Browser Home Screen Loaded!');
 });
 
-shortcutForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const name = shortcutNameInput.value.trim();
-  let url = shortcutUrlInput.value.trim();
-
-  if (!name || !url) {
-    alert("Please provide both a label and a URL.");
-    return;
-  }
-
-  if (!/^https?:\/\//i.test(url)) {
-    url = `https://${url}`;
-  }
-
-  const shortcuts = getShortcuts();
-  shortcuts.push({ name, url });
-  saveShortcuts(shortcuts);
-
-  shortcutNameInput.value = "";
-  shortcutUrlInput.value = "";
-  shortcutNameInput.focus();
-
-  renderShortcuts();
-});
-
-renderShortcuts();
-
-// -------------------- Fish Tank Animation --------------------
-const fishLayer = document.getElementById("fishLayer");
-
-const fishConfig = {
-  count: 12,
-  palettes: [
-    { primary: "#7af0ff", secondary: "#1fd2ff" },
-    { primary: "#ffc07f", secondary: "#ff8f70" },
-    { primary: "#ff9dd4", secondary: "#ff60b8" },
-    { primary: "#9f8bff", secondary: "#6c5ce7" },
-    { primary: "#88ffda", secondary: "#35d6b6" },
-    { primary: "#f7f48b", secondary: "#f9a620" },
-  ],
-  sizeRange: [70, 140],
-  swimDurationRange: [20, 34],
-  floatDurationRange: [6, 10],
-  depthRange: [15, 75], // vh
-  waveRange: [3, 10], // vh
-};
-
-const randomBetween = (min, max) => Math.random() * (max - min) + min;
-
-const createFishElement = () => {
-  const fish = document.createElement("div");
-  fish.className = "fish";
-
-  const direction = Math.random() > 0.5 ? "swim-right" : "swim-left";
-  fish.classList.add(direction);
-
-  const palette = fishConfig.palettes[Math.floor(Math.random() * fishConfig.palettes.length)];
-  const size = randomBetween(...fishConfig.sizeRange);
-  const swimDuration = randomBetween(...fishConfig.swimDurationRange);
-  const floatDuration = randomBetween(...fishConfig.floatDurationRange);
-  const depth = randomBetween(...fishConfig.depthRange);
-  const waveMagnitude = randomBetween(...fishConfig.waveRange);
-  const waveDirection = Math.random() > 0.5 ? 1 : -1;
-
-  fish.style.setProperty("--fish-color", palette.primary);
-  fish.style.setProperty("--fish-secondary", palette.secondary);
-  fish.style.setProperty("--fish-size", `${size}px`);
-  fish.style.setProperty("--swim-duration", `${swimDuration}s`);
-  fish.style.setProperty("--float-duration", `${floatDuration}s`);
-  fish.style.setProperty("--fish-depth", `${depth}vh`);
-  fish.style.setProperty("--wave", `${waveMagnitude * waveDirection}vh`);
-
-  const fishInner = document.createElement("div");
-  fishInner.className = "fish-inner";
-
-  const tail = document.createElement("div");
-  tail.className = "fish-tail";
-
-  const body = document.createElement("div");
-  body.className = "fish-body";
-
-  const gill = document.createElement("div");
-  gill.className = "fish-gill";
-
-  const dorsalFin = document.createElement("div");
-  dorsalFin.className = "fish-fin fish-fin--dorsal";
-
-  const ventralFin = document.createElement("div");
-  ventralFin.className = "fish-fin fish-fin--ventral";
-
-  const eye = document.createElement("div");
-  eye.className = "fish-eye";
-
-  const highlight = document.createElement("div");
-  highlight.className = "fish-highlight";
-
-  const shadow = document.createElement("div");
-  shadow.className = "fish-shadow";
-
-  fishInner.append(tail, body, gill, dorsalFin, ventralFin, eye, highlight, shadow);
-  fish.appendChild(fishInner);
-
-  fish.addEventListener("animationiteration", () => {
-    const newDepth = randomBetween(...fishConfig.depthRange);
-    const newWave = randomBetween(...fishConfig.waveRange) * (Math.random() > 0.5 ? 1 : -1);
-    fish.style.setProperty("--fish-depth", `${newDepth}vh`);
-    fish.style.setProperty("--wave", `${newWave}vh`);
-  });
-
-  fish.addEventListener("mouseenter", () => {
-    fish.style.setProperty("--swim-duration", `${Math.max(swimDuration * 0.7, 14)}s`);
-  });
-
-  fish.addEventListener("mouseleave", () => {
-    fish.style.setProperty("--swim-duration", `${swimDuration}s`);
-  });
-
-  return fish;
-};
-
-const populateFish = () => {
-  fishLayer.innerHTML = "";
-  for (let i = 0; i < fishConfig.count; i += 1) {
-    fishLayer.appendChild(createFishElement());
-  }
-};
-
-populateFish();
-
-window.addEventListener("resize", () => {
-  // Slight delay to avoid excessive reflows while resizing
-  window.requestAnimationFrame(() => {
-    populateFish();
-  });
+// ==================== Keyboard Shortcuts ====================
+document.addEventListener('keydown', (e) => {
+    // Focus search bar with '/' key
+    if (e.key === '/' && document.activeElement !== document.getElementById('search-input')) {
+        e.preventDefault();
+        document.getElementById('search-input').focus();
+    }
+    
+    // Escape to blur search or close modal
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('add-shortcut-modal');
+        if (modal.classList.contains('active')) {
+            modal.classList.remove('active');
+            document.getElementById('shortcut-form').reset();
+        } else {
+            document.getElementById('search-input').blur();
+        }
+    }
 });
