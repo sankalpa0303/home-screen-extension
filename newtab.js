@@ -1,6 +1,10 @@
-document.getElementById("search").addEventListener("keydown", function (e) {
+const searchInput = document.getElementById("search");
+
+searchInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
-    window.location.href =
-      "https://www.google.com/search?q=" + this.value;
+    const query = this.value.trim();
+    if (query !== "") {
+      window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(query);
+    }
   }
 });
