@@ -1,0 +1,22 @@
+body {
+  background: #0f172a;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+}
+
+input {
+  width: 60%;
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+}
+
+.shortcuts a {
+  display: inline-block;
+  margin: 15px;
+  color: #38bdf8;
+  text-decoration: none;
+  font-size: 18px;
+}

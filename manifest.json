@@ -1,12 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "Home Screen Extension",
-  "version": "1.0.0",
-  "description": "My browser extension created using VS Code & GitHub",
-  "action": {
-    "default_popup": "popup.html"
+  "name": "My Custom Browser Home",
+  "description": "My own browser home screen UI",
+  "version": "1.0",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
   },
+  "permissions": ["storage"],
   "icons": {
-    "128": "icon.png"
+    "128": "icons/icon.png"
   }
 }
