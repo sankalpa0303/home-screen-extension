@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AquaHome</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="ocean-gradient" aria-hidden="true"></div>
+    <div class="bubble-layer" aria-hidden="true">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+    </div>
+
+    <div id="fishLayer" aria-hidden="true"></div>
+
+    <main class="layout">
+      <header class="top-bar glass-card">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          AquaHome
+        </div>
+        <div class="clock-wrapper">
+          <div class="clock-label">Current tide</div>
+          <div id="clock" class="clock-display"></div>
+        </div>
+      </header>
+
+      <section class="search-section glass-card">
+        <h1>Find your next dive</h1>
+        <form id="searchForm">
+          <input
+            id="searchInput"
+            type="search"
+            name="q"
+            autocomplete="off"
+            placeholder="Search the web..."
+            aria-label="Search the web"
+          />
+          <button type="submit">Search</button>
+        </form>
+      </section>
+
+      <section class="shortcuts-section glass-card">
+        <div class="shortcuts-header">
+          <h2>Quick currents</h2>
+          <button
+            id="toggleShortcutForm"
+            class="icon-button"
+            type="button"
+            aria-expanded="false"
+            aria-controls="shortcutForm"
+            title="Add shortcut"
+          >
+            +
+          </button>
+        </div>
+        <div class="shortcut-grid" id="shortcutGrid" role="list"></div>
+
+        <form id="shortcutForm" class="shortcut-form" hidden>
+          <input
+            type="text"
+            id="shortcutName"
+            placeholder="Label"
+            autocomplete="off"
+          />
+          <input
+            type="url"
+            id="shortcutUrl"
+            placeholder="https://example.com"
+            autocomplete="off"
+          />
+          <button type="submit">Save shortcut</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
