@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Home Screen Extension",
+  "version": "1.0.0",
+  "description": "My browser extension created using VS Code & GitHub",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "128": "icon.png"
+  }
+}
