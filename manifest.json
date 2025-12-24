@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Home Screen Extension",
+  "version": "1.0.0",
+  "description": "Replaces the default new tab experience with a customizable home screen.",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": []
+}
