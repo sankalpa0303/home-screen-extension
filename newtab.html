@@ -8,15 +8,20 @@
 </head>
 <body>
   <div class="container">
-    <h1>Welcome Pasindu 👋</h1>
+    <div class="header">
+      <h1>Welcome Pasindu 👋</h1>
+      <div id="clock"></div>
+      <button id="toggleTheme">Toggle Dark/Light</button>
+    </div>
 
     <input id="search" type="text" placeholder="Search the web..." />
 
-    <div class="shortcuts">
-      <a href="https://www.google.com" target="_blank">Google</a>
-      <a href="https://www.youtube.com" target="_blank">YouTube</a>
-      <a href="https://www.github.com" target="_blank">GitHub</a>
-      <a href="https://www.stackoverflow.com" target="_blank">StackOverflow</a>
+    <div class="shortcuts" id="shortcuts"></div>
+
+    <div class="add-shortcut">
+      <input id="shortcutName" type="text" placeholder="Site Name" />
+      <input id="shortcutUrl" type="text" placeholder="Site URL" />
+      <button id="addShortcut">Add Shortcut</button>
     </div>
   </div>
 
