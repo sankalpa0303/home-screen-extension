@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
@@ -33,21 +33,29 @@
           <span class="brand-dot"></span>
           AquaHome
         </div>
-        <div class="clock-wrapper">
-          <div class="clock-label">Current tide</div>
-          <div id="clock" class="clock-display"></div>
+        <div class="session-meta">
+          <p class="session-label">Today</p>
+          <div class="clock-wrapper">
+            <div id="clock" class="clock-display"></div>
+          </div>
         </div>
       </header>
 
       <section class="search-section glass-card">
-        <h1>Find your next dive</h1>
+        <div class="search-copy">
+          <p class="eyebrow">Universal search</p>
+          <h1>Stay focused, stay curious.</h1>
+          <p class="subcopy">
+            Launch a query or jump back into your saved workspaces.
+          </p>
+        </div>
         <form id="searchForm">
           <input
             id="searchInput"
             type="search"
             name="q"
             autocomplete="off"
-            placeholder="Search the web..."
+            placeholder="Search the web"
             aria-label="Search the web"
           />
           <button type="submit">Search</button>
@@ -56,7 +64,10 @@
 
       <section class="shortcuts-section glass-card">
         <div class="shortcuts-header">
-          <h2>Quick currents</h2>
+          <div>
+            <p class="eyebrow">Pinned links</p>
+            <h2>Quick access</h2>
+          </div>
           <button
             id="toggleShortcutForm"
             class="icon-button"
